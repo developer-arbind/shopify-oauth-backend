@@ -88,6 +88,8 @@ class OpenAiSqlAgent {
       }
   }
 
+ 
+
   async makeParentVector (pineconeStore, docs, embeddings) {
     const ids = await pineconeStore.addDocuments(docs);
               
@@ -205,7 +207,35 @@ class OpenAiSqlAgent {
 
     return splitDocs;
   }
+  async addDislike (reason) {
+    try {
+        
+      await PineconeStore.fromDocuments([new Document({
+        metadata: { failure$: `yes`, userId: this.self.userId },
+        pageContent: `
+        user did't like your response and gave a deslike, see why\n
+        user input: ${inputOutput.humanText} \n
+        your result: ${inputOutput.result} \n
+        reason: ${reason}, from the next time please don't repeat this mistake
+         `,
+      })], new OpenAIEmbeddings( {
+        openAIApiKey: "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"
+      }), {
+        pineconeIndex,
+        maxConcurrency: 5
+      });
 
+      const vectorStore =  await PineconeStore.fromExistingIndex(
+        new OpenAIEmbeddings({
+          openAIApiKey: "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"
+        }),
+        { pineconeIndex }
+      );
+    return vectorStore;
+  }catch (err) {
+    return err;
+  }
+  }
    async creatingVectorIndexedDocument (input, schema, direct) {
       this.self.humanText = input;
         const prompt =
