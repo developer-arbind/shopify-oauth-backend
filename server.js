@@ -514,7 +514,8 @@ serv.post("/ask-question", async (req, res) => {
     }
     queryString = removeEmptyStrings(queryString);
     let modifiedQueryString = addQuotesToObjectKeys(queryString, example);
-    console.log(modifiedQueryString);
+    // console.log(modifiedQueryString); to print the SQL CODE
+
 
     runQuery(!modifiedQueryString ? qoute : modifiedQueryString); 
     return res.status(200).json( {
