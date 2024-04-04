@@ -1,0 +1,153 @@
+Note: Always write tables or their property names within double quotation marks because, in my schema, all tables are enclosed within double quotation marks like TABLE -> "TABLE".
+
+1# Reviews table -> It is the reviews table. It has the following properties:
+
+"id": Unique key for each review.
+"idt": ID of the specific client.
+"paid": The amount the client paid to the freelancer.
+"profilePicture": Profile picture of the client.
+"review": Review written by the client.
+"username": User name of the client's account.
+"gigFrom": The ID of the gig from which the review is made.
+"freelancerId": ID of the freelancer who completed the work for the client.
+
+finish date is in the lawlit tables also the finish date property is: fdate, so try to find the client id first in the reviews table and
+then find in the lawlit by checking idt
+column "fdate" does not exist in Reviews table, so try it in Lawlite table
+Schema:
+CREATE TABLE "Reviews" ( 
+    "id" TEXT NOT NULL,
+    "idt" TEXT,
+    "paid" INTEGER NOT NULL,
+    "profilePicture" TEXT NOT NULL,
+    "review" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
+    "gigFrom" TEXT,
+    "rating" INTEGER NOT NULL
+    "etc" TEXT,
+    "freelancerId" TEXT,
+
+    CONSTRAINT "Reviews_pkey" PRIMARY KEY ("id")
+);
+
+2# Gig Table -> It is the table containing gigs offered by freelancers. It has the following properties:
+
+"id": Unique key for each gig.
+"completed": Number of projects completed for the gig.
+"from": ID of the freelancer who uploaded the gig.
+"idt": ID of the gig.
+"title": Name of the gig.
+"picture": Cover picture of the gig.
+"freelancerId": ID of the freelancer who created the gig.
+Schema:
+CREATE TABLE "Gig" (
+    "id" TEXT NOT NULL,
+    "etc" TEXT,
+    "completed" INTEGER NOT NULL,
+    "from" TEXT NOT NULL,
+    "idt" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "picture" TEXT NOT NULL,
+    "freelancerId" TEXT,
+
+    CONSTRAINT "Gig_pkey" PRIMARY KEY ("id")
+);
+
+
+3# Portfolio table -> It is the portfolio table of freelancers. It has the following properties:
+
+"id": Unique key for each portfolio item.
+"src": Source link of the image.
+"description": Description of the image.
+"freelancerId": ID of the freelancer whose portfolio this is.
+Schema:
+CREATE TABLE "Portfolio" (
+    "id" TEXT NOT NULL,
+    "src" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "freelancerId" TEXT,
+
+    CONSTRAINT "Portfolio_pkey" PRIMARY KEY ("id")
+);
+
+4# Lawlite table -> It is the client table of freelancers. It has the following properties:
+
+"id": Unique key for each client.
+"failed": Indicates whether the client denied payment to the freelancer.
+"fdate": Final date when the client paid the freelancer. date pattern here: ex: 2022/02/30 year/month/day
+"fromGig": Name of the gig.
+"idt": Client ID.
+"paid": Amount paid by the client.
+"tip": Tip given by the client to the freelancer.
+"username": Username of the client.
+Schema:
+
+CREATE TABLE "Lawlite" (
+    "id" TEXT NOT NULL,
+    "failed" BOOLEAN NOT NULL,
+    "fdate" TEXT NOT NULL, //this means the finish date and date pattern here: ex: 2022/02/30 year/month/day
+    "fromGig" TEXT NOT NULL,
+    "freelancerId" TEXT,
+    "idt" TEXT NOT NULL,
+    "paid" INTEGER NOT NULL,
+    "tip" INTEGER NOT NULL,
+    "username" TEXT NOT NULL,
+
+    CONSTRAINT "Lawlite_pkey" PRIMARY KEY ("id")
+);
+5# Freelancer table -> It is the table of freelancers. It has the following properties:
+
+if there is freelancerId, then see idt cause freelancerId means idt here
+
+
+"id": Unique identifier for each freelancer. note* if user gave id, then it means idt not id, there is no work for id
+"idt": Freelancer Account ID
+"bestseller": Indicates whether the freelancer is a bestseller.
+"description": Description of the freelancer.
+"earnings": Total earnings of the freelancer.
+"earningsWithTip": Earnings including tips.
+"freelancerName": Name of the freelancer.
+"gender": Gender of the freelancer.
+"password": Password of the freelancer.
+"ratings": Ratings of the freelancer.
+"responseTime": Response time of the freelancer.
+"runningAd": Indicates whether the freelancer is running an ad.
+"topRated": Indicates whether the freelancer is top-rated.
+"verified": Indicates whether the freelancer is verified.
+Schema:
+CREATE TABLE "Freelancer" (
+    "id" TEXT NOT NULL,
+    "bestseller" BOOLEAN NOT NULL,
+    "description" TEXT NOT NULL,
+    "earnings" INTEGER NOT NULL,
+    "earningsWithTip" INTEGER NOT NULL,
+    "freelancerName" TEXT NOT NULL,
+    "gender" TEXT NOT NULL,
+    "idt" TEXT NOT NULL,  //this means freelancerId
+    "password" TEXT NOT NULL,
+    "ratings" INTEGER NOT NULL,
+    "responseTime" INTEGER NOT NULL,
+    "runningAd" BOOLEAN NOT NULL,
+    "topRated" BOOLEAN NOT NULL,
+    "verified" BOOLEAN NOT NULL,
+
+    CONSTRAINT "Freelancer_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Gig_etc_key" ON "Gig"("etc");
+
+-- AddForeignKey
+ALTER TABLE "Reviews" ADD CONSTRAINT "Reviews_etc_fkey" FOREIGN KEY ("etc") REFERENCES "Gig"("etc") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Reviews" ADD CONSTRAINT "Reviews_freelancerId_fkey" FOREIGN KEY ("freelancerId") REFERENCES "Freelancer"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Gig" ADD CONSTRAINT "Gig_freelancerId_fkey" FOREIGN KEY ("freelancerId") REFERENCES "Freelancer"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Portfolio" ADD CONSTRAINT "Portfolio_freelancerId_fkey" FOREIGN KEY ("freelancerId") REFERENCES "Freelancer"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Lawlite" ADD CONSTRAINT "Lawlite_freelancerId_fkey" FOREIGN KEY ("freelancerId") REFERENCES "Freelancer"("id") ON DELETE SET NULL ON UPDATE CASCADE;
