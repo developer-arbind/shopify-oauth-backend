@@ -25,10 +25,10 @@ const chatModel = new ChatOpenAI({
       }
     }
   ],
-  openAIApiKey: "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",
+  openAIApiKey: process.env.OPENAIKEY,
 });
 const pc = new Pinecone({
-  apiKey: '3112c1d3-44c2-4987-9a1e-7db03ba1c632',
+  apiKey: process.env.PINECONEKEY,
 });
 const pineconeIndex = pc.Index("langchain");
 class OpenAiSqlAgent {
@@ -52,7 +52,7 @@ class OpenAiSqlAgent {
   async initVectorStore () {
     this.self.vectorStore = await PineconeStore.fromExistingIndex(
       new OpenAIEmbeddings( {
-        openAIApiKey: "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"
+        openAIApiKey: process.env.OPENAIKEY
       } ),
       { pineconeIndex }
     );
@@ -70,7 +70,7 @@ class OpenAiSqlAgent {
             is correct: ${correct ? "yes" : `no, here's why: ${breifEx}`}
              `,
           })], new OpenAIEmbeddings( {
-            openAIApiKey: "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"
+            openAIApiKey: process.env.OPENAIKEY
           }), {
             pineconeIndex,
             maxConcurrency: 5
@@ -78,7 +78,7 @@ class OpenAiSqlAgent {
 
           const vectorStore =  await PineconeStore.fromExistingIndex(
             new OpenAIEmbeddings({
-              openAIApiKey: "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"
+              openAIApiKey: process.env.OPENAIKEY
             }),
             { pineconeIndex }
           );
@@ -117,7 +117,7 @@ class OpenAiSqlAgent {
       vectorStore = await MemoryVectorStore.fromDocuments(
         docs,
         new OpenAIEmbeddings({
-          openAIApiKey: "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"
+          openAIApiKey: process.env.OPENAIKEY
         })
       ); 
     }else {
@@ -125,7 +125,7 @@ class OpenAiSqlAgent {
       // const foo = await this.self.deleteEmbeddedDocument();
       // console.log(foo);
       const embeddings = new OpenAIEmbeddings({
-        openAIApiKey: "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"
+        openAIApiKey: process.env.OPENAIKEY
       })
   const pineconeStore = new PineconeStore(embeddings, { pineconeIndex });
     if(!this.self.parentId){
@@ -161,7 +161,7 @@ class OpenAiSqlAgent {
       vectorStore = await MemoryVectorStore.fromDocuments(
         docs,
         new OpenAIEmbeddings({
-          openAIApiKey: "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"
+          openAIApiKey: process.env.OPENAIKEY
         })
       ); 
     }else {
@@ -169,7 +169,7 @@ class OpenAiSqlAgent {
       // const foo = await this.self.deleteEmbeddedDocument();
       // console.log(foo);
       const embeddings = new OpenAIEmbeddings({
-        openAIApiKey: "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"
+        openAIApiKey: process.env.OPENAIKEY
       })
   const pineconeStore = new PineconeStore(embeddings, { pineconeIndex });
     if(!this.self.parentId){
@@ -219,7 +219,7 @@ class OpenAiSqlAgent {
         reason: ${reason}, from the next time please don't repeat this mistake
          `,
       })], new OpenAIEmbeddings( {
-        openAIApiKey: "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"
+        openAIApiKey: process.env.OPENAIKEY
       }), {
         pineconeIndex,
         maxConcurrency: 5
@@ -227,7 +227,7 @@ class OpenAiSqlAgent {
 
       const vectorStore =  await PineconeStore.fromExistingIndex(
         new OpenAIEmbeddings({
-          openAIApiKey: "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"
+          openAIApiKey: process.env.OPENAIKEY
         }),
         { pineconeIndex }
       );

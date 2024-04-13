@@ -12,38 +12,14 @@ const prisma = new PrismaClient();
 // const {Client} = require("pg");
 const serv = express();
 const client = new Client.Client ({
-    host: 'sgptdatabase-sgpt.a.aivencloud.com',
-    user: 'avnadmin',
+    host: process.env.HOST,
+    user: process.env.USERNAME,
     password: process.env.PASSWORD,
-    port: 17870,
-    database: "sgpt",
+    port: process.env.PORT,
+    database: process.env.DATABASE,
     ssl: {
         rejectUnauthorized: true,
-        ca: `-----BEGIN CERTIFICATE-----
-MIIEQTCCAqmgAwIBAgIUSrUEsB2PvBzRCu8iFViWApnWSZ8wDQYJKoZIhvcNAQEM
-BQAwOjE4MDYGA1UEAwwvMzUwNDM5YzAtMGNiMC00ZDljLTgwYmEtMDkzNjNiN2Zl
-ZDMzIFByb2plY3QgQ0EwHhcNMjQwMzI4MTIzNjM2WhcNMzQwMzI2MTIzNjM2WjA6
-MTgwNgYDVQQDDC8zNTA0MzljMC0wY2IwLTRkOWMtODBiYS0wOTM2M2I3ZmVkMzMg
-UHJvamVjdCBDQTCCAaIwDQYJKoZIhvcNAQEBBQADggGPADCCAYoCggGBAL/ESOVt
-58ZHBtCT3pvFl1SW12xVvT7b/B7gbE/9B0d7Sy0upQORq0qHTAwvx8A08K8T/Uu6
-VkvpCxwweSr2erDmw2k7V007AvuDyvRTqUmkCdsbh00gXOPUzHioy1g8EHz/Jq4s
-DF0+preZcmmW3eF3oBFPBRhDfQ6LYC4k3wUYHwA9kXSMcspDFwGBZVhjDXZ5hkYB
-/8Lgv9QZKTPwf19mpaeJb5XPql3AoBGb/KsOm6HO7PT3N35RVMx2GQM0+uvsR7p/
-/ol6PJDQ7GaB5vDYKsmdibvUpG1w1s1Y+uN4QZYE3SkpYGdkb1vsAuiOfxF0699V
-fX7LEkd0xHLKPHch7jvvgR0U0EyCUP9GQmz0HnSl+EZx2drxeeQb25o1d3ZjfeDr
-OcCsMItMtQxkZXpn+z0+8xkdAisEtnMsdPjfBHUcnu1eL/+Yo9Q9YdeuASN4AkfU
-5o1IKnsmNThVLrozht42hJTEHoRGdNmTAp09QvxDxsjyI5FY/j1+V3Oc3wIDAQAB
-oz8wPTAdBgNVHQ4EFgQUvc6OIJuX+MWc+ceEHPiWZ5T/NXUwDwYDVR0TBAgwBgEB
-/wIBADALBgNVHQ8EBAMCAQYwDQYJKoZIhvcNAQEMBQADggGBADX5BSVNcSXvClpX
-34F/7fA9g2ZxqKkakkx5UKGpGAd2KD0Z8CqZs0TSs6MaMtSO0/1b/sH8+VILHDKo
-o+wugTuvZd0HIsga9QvFi2miDRenfIv5mc/AE/dybq+SlbGJ6D+cLHA8Zkvy+tsa
-4lpUbOpJ0Avl7OiydyehRFyRTJl0hdEsAHkgoDO9mXq6NlDjtDKB/8bP38fFZxDJ
-A9YJZvIzQtb+QjW0kb+du3JN2cOoC28bsJfrJcn5ra8JtnVbs5vy/Asoh95YVUsj
-aSYR80HiECJcyhqCPiOg0WTRpeTSPQI4V2Lz9wWBz0CHuVgwgvcoo2w5It2YQ67C
-QloOsT+REU7GhYuK7z8C7+WvzIlkmJ49nkLb/OSRjl6AJsnokY1YI+SctZQpi6u+
-OlLWTLzgOE+sjs2zCvJfybbXvFgGuOXeTEuVMh+gpVu3RaHrQBHEnOFG2daUs/tq
-fOUN2i2MgotmuK6y746cznpZdUG/DQuWYwaCCv9pPo7iiDjm8A==
------END CERTIFICATE-----`,
+        ca: `CERTIFICATE`
     },
   });
 
