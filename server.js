@@ -14,7 +14,7 @@ const serv = express();
 const client = new Client.Client ({
     host: 'sgptdatabase-sgpt.a.aivencloud.com',
     user: 'avnadmin',
-    password: 'AVNS_9Q5IYahR9Dto0U86ffK',
+    password: process.env.PASSWORD,
     port: 17870,
     database: "sgpt",
     ssl: {
@@ -42,7 +42,7 @@ A9YJZvIzQtb+QjW0kb+du3JN2cOoC28bsJfrJcn5ra8JtnVbs5vy/Asoh95YVUsj
 aSYR80HiECJcyhqCPiOg0WTRpeTSPQI4V2Lz9wWBz0CHuVgwgvcoo2w5It2YQ67C
 QloOsT+REU7GhYuK7z8C7+WvzIlkmJ49nkLb/OSRjl6AJsnokY1YI+SctZQpi6u+
 OlLWTLzgOE+sjs2zCvJfybbXvFgGuOXeTEuVMh+gpVu3RaHrQBHEnOFG2daUs/tq
-fOUN2i2MgotmuK6y746cznpZdUG/SQuWYwaFCv9pQo7iiDjm8A==
+fOUN2i2MgotmuK6y746cznpZdUG/DQuWYwaCCv9pPo7iiDjm8A==
 -----END CERTIFICATE-----`,
     },
   });
@@ -101,6 +101,7 @@ serv.get("/upload-vector-db", async (req, res) => {
 });
 serv.post("/ask-question2", async (req, res) => {
     const qoute = !setconversational ? await SQLAGENT.creatingVectorIndexedDocument(req.body.input,null, false) : await SQLAGENT.ConversationalRetrievalChain(req.body.input); 
+    console.log("quote: ", qoute);
 });
 
 serv.post("/ask-question", async (req, res) => {
