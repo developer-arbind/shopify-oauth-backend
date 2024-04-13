@@ -32,11 +32,7 @@ let setconversational = false;
 const id = "9823270005";
 const SQLAGENT = new OpenAiSqlAgent(id);
 
-const shopifyToken = new OauthShopify({
-    sharedSecret: 'b539f48aceb8ee047f54c577000b0e2b',
-    redirectUri: 'http://localhost:5173/',
-    apiKey: '2202c8560d3acefe0dd96104d0132ceb'
-  });
+
 
 
 
